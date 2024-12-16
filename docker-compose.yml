@@ -1,0 +1,35 @@
+services:
+  app:
+    image: akadeax/akadndserver:0.1
+    container_name: ads
+    build:
+      context: .
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    command: /usr/src/app/bootstrap.sh
+    ports:
+      - "6556:5000"
+    depends_on:
+      - mongo
+  
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: server_database
+    command: mongod --quiet --logpath /dev/null 
+  
+volumes:
+  mongo-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: E:\\Mongo
+      o: bind
