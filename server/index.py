@@ -20,7 +20,7 @@ def register_blueprints():
     from .user_routes import user_api
     app.register_blueprint(item_api)
     app.register_blueprint(user_api)
-    
+
 register_blueprints()
 
 if __name__ == "__main__":

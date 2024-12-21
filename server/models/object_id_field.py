@@ -3,16 +3,16 @@ from bson import ObjectId
 
 class ObjectIdField(fields.Field):
     def _deserialize(self, value, attr, data, **kwargs):
-        if not isinstance(value, str):
+        if isinstance(value, ObjectId):
             return value
-    
-        if value == "":
-            return ObjectId("000000000000000000000000")
-        
+
+        if not isinstance(value, str) or value == "":
+            return None
+
         return ObjectId(value)
 
     def _serialize(self, value, attr, obj, **kwargs):
-        if not isinstance(value, ObjectId):
-            return value
-        
-        return str(value)
+        if isinstance(value, ObjectId):
+            return str(value)
+
+        return None
